@@ -6,7 +6,7 @@ import {
   updateQuiz,
   getOneQuiz,
 } from "../controllers/quizControllers.js";
-
+import validId from "../middlewares/isValidId.js";
 
 
 import validateBody from "../helpers/validateBody.js";
