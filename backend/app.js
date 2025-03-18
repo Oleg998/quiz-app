@@ -3,7 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import mongoose from "mongoose";
 import "dotenv/config";
-import quizRouter from "./routes/eventsRouter.js";
+import quizRouter from "./routes/quizRouter.js";
 
 const {DB_HOST} = process.env;
 
