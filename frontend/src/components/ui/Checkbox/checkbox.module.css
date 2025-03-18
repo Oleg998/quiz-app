@@ -1,0 +1,12 @@
+.checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 0.25rem; 
+  border: 1px solid #d1d5db; 
+  accent-color: #3182ce; 
+}
+
+.checkbox:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(99, 184, 237, 0.5); 
+}
