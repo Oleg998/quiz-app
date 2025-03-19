@@ -18,9 +18,9 @@ const quizRouter = express.Router();
 
 quizRouter.get("/", getAllQuiz);
 
-quizRouter.get("/:id", validId, getOneQuiz);
+quizRouter.get("/:id",  getOneQuiz);
 
-quizRouter.delete("/:id", validId, deleteQuiz);
+quizRouter.delete("/:id",  deleteQuiz);
 
 quizRouter.post("/", validateBody(createQuizSchema), createQuiz);
 
