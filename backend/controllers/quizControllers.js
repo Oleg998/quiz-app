@@ -63,6 +63,8 @@ export const updateQuiz = async (req, res, next) => {
 export const getOneQuiz = async (req, res, next) => {
   try {
     const id = req.params.id;
+    console.log(id);
+    
     const result = await quizService.getQuizById({ _id: id });
     if (!result) {
       throw HttpError(404);
