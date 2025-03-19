@@ -26,10 +26,10 @@ const quizSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-quizShema.post("save", handleSaveError);
-quizShema.pre("findOneAndUpdate", setUpdateSetting);
-quizShema.post("findOneAndUpdate", handleSaveError); 
+quizSchema.post("save", handleSaveError);
+quizSchema.pre("findOneAndUpdate", setUpdateSetting);
+quizSchema.post("findOneAndUpdate", handleSaveError); 
 
-const Quiz = model("quiz", quizShema);
+const Quiz = model("quiz", quizSchema);
 
 export default Quiz;
