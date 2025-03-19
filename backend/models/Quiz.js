@@ -26,6 +26,9 @@ const quizSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
+quizShema.post("save", handleSaveError);
+quizShema.pre("findOneAndUpdate", setUpdateSetting);
+quizShema.post("findOneAndUpdate", handleSaveError); 
 
 const Quiz = model("quiz", quizShema);
 
