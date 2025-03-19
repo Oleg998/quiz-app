@@ -8,7 +8,7 @@ export function countQuiz(filter) {
 }
 
 export function getQuizById(filter) {
-  return Quiz.findOne(filter);
+   return Quiz.findOne({ _id: filter._id });
 }
 
 export function addQuiz(data) {
