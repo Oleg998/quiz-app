@@ -2,6 +2,7 @@ import styles from "./quizCard.module.css";
 import { Button } from "../ui/Button/Button";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
+import Loader from "../ui/Spinner/Spinner";
 
 const QuizCard = ({
   id,
@@ -13,6 +14,7 @@ const QuizCard = ({
 }) => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false); 
   const menuRef = useRef(null);
 
   const toggleMenu = () => {
@@ -31,6 +33,17 @@ const QuizCard = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      await onDelete(id);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsDeleting(false); 
+    }
+  };
 
   return (
     <div className={styles.card}>
@@ -52,7 +65,6 @@ const QuizCard = ({
           {menuOpen && (
             <div className={styles.dropdownMenu}>
               <button
-                
                 onClick={() => {
                   navigate(`/edit/${id}`);
                   setMenuOpen(false);
@@ -61,7 +73,6 @@ const QuizCard = ({
                 Edit
               </button>
               <button
-              
                 onClick={() => {
                   navigate(`/game/${id}`);
                   setMenuOpen(false);
@@ -70,13 +81,10 @@ const QuizCard = ({
                 Run
               </button>
               <button
-               
-                onClick={() => {
-                  onDelete(id);
-                  setMenuOpen(false);
-                }}
+                onClick={handleDelete}
+                disabled={isDeleting}
               >
-                Delete
+                {isDeleting ? <Loader /> : "Delete"}
               </button>
             </div>
           )}
