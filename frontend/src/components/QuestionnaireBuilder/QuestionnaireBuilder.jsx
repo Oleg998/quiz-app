@@ -10,7 +10,7 @@ const QuestionnaireBuilder = ({ quiz, id }) => {
   const [quizTitle, setQuizTitle] = useState(quiz?.title || "");
   const [quizDescription, setQuizDescription] = useState(
     quiz?.description || ""
-  ); // Добавлено описание
+  ); 
   const [questions, setQuestions] = useState([]);
   const [newQuestion, setNewQuestion] = useState("");
   const [questionType, setQuestionType] = useState("text");
@@ -34,7 +34,6 @@ const QuestionnaireBuilder = ({ quiz, id }) => {
   }, [quizTitle]);
 
   const addQuestion = () => {
-    const id = Date.now();
     if (!newQuestion.trim()) {
       alert("Text question cannot be empty.");
       return;
@@ -48,7 +47,6 @@ const QuestionnaireBuilder = ({ quiz, id }) => {
     setQuestions([
       ...questions,
       {
-        id: id,
         question: newQuestion,
         type: questionType,
         options: questionType !== "text" ? options : [],
@@ -93,7 +91,7 @@ const QuestionnaireBuilder = ({ quiz, id }) => {
     <div className={styles.container}>
       <h2 className={styles.title}>Create Quiz</h2>
 
-      {/* Поле для ввода названия квиза */}
+     
       <div className={styles.optionContainer}>
         <Input
           value={quizTitle}
@@ -104,7 +102,7 @@ const QuestionnaireBuilder = ({ quiz, id }) => {
         />
       </div>
 
-      {/* Поле для ввода описания квиза */}
+    
       <div className={styles.optionContainer}>
         <Input
           value={quizDescription}
@@ -115,7 +113,6 @@ const QuestionnaireBuilder = ({ quiz, id }) => {
         />
       </div>
 
-      {/* Поле для добавления вопроса */}
       <div className={styles.optionContainer}>
         <Input
           value={newQuestion}
@@ -161,7 +158,6 @@ const QuestionnaireBuilder = ({ quiz, id }) => {
         saveQuestion={saveQuestion}
       />
 
-      {/* Передаем title, description и questions в SubmitQuiz */}
       <SubmitQuiz
         id={id}
         questions={{
