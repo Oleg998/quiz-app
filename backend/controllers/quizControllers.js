@@ -42,7 +42,6 @@ export const createQuiz = async (req, res, next) => {
 export const updateQuiz = async (req, res, next) => {
   
   try {
-    console.log("Полученные данные для обновления:", req.body);
     const id = req.params.id;
     if (Object.keys(req.body).length === 0) {
       throw HttpError(400, "Body must have at least one field");
