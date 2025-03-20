@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import styles from "./QuizPage.module.css";
+import styles from "./quizPage.module.css";
 import { getQuizByid } from "../api/api";
 
 const QuizPage = () => {
