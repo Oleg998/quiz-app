@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../ui/Button/Button";
 import { Input } from "../ui/Input/Input";
 import styles from "./questionnaireBuilder.module.css";
@@ -6,13 +6,18 @@ import AnswerInput from "./AnswerInput";
 import SubmitQuiz from "./SubmitQuiz";
 import QuestionEdit from "./QuestionEdit";
 
-const QuestionnaireBuilder = () => {
+const QuestionnaireBuilder = ({ quiz }) => {
   const [questions, setQuestions] = useState([]);
   const [newQuestion, setNewQuestion] = useState("");
   const [questionType, setQuestionType] = useState("text");
   const [options, setOptions] = useState([""]);
   const [correctAnswers, setCorrectAnswers] = useState([]);
-  console.log(questions);
+
+  useEffect(() => {
+    if (quiz?.questions) {
+      setQuestions(quiz.questions);
+    }
+  }, [quiz]);
 
   const addQuestion = () => {
     const id = Date.now();
@@ -55,11 +60,9 @@ const QuestionnaireBuilder = () => {
     setOptions(newOptions);
   };
 
-  
   const removeQuestion = (id) => {
     setQuestions(questions.filter((q) => q.id !== id));
   };
-
 
   const editQuestion = (id, newText, newOptions, newCorrectAnswers) => {
     setQuestions(
@@ -76,9 +79,8 @@ const QuestionnaireBuilder = () => {
     );
   };
 
-
   const saveQuestion = (id, newText, newOptions, newCorrectAnswers) => {
-    editQuestion(id, newText, newOptions, newCorrectAnswers); 
+    editQuestion(id, newText, newOptions, newCorrectAnswers);
   };
 
   return (
