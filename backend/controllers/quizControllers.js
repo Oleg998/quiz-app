@@ -3,7 +3,6 @@ import HttpError from "../helpers/HttpError.js";
 
 export const getAllQuiz = async (req, res, next) => {
   try {
-    console.log(req.query);
     const { page = 1, limit = 9, } = req.query;
     const skip = (page - 1) * limit;
     const result = await quizService.listQuiz({}, { skip, limit });
@@ -41,9 +40,9 @@ export const createQuiz = async (req, res, next) => {
 };
 
 export const updateQuiz = async (req, res, next) => {
-  console.log("Полученные данные для обновления:", req.body);
+  
   try {
-    
+    console.log("Полученные данные для обновления:", req.body);
     const id = req.params.id;
     if (Object.keys(req.body).length === 0) {
       throw HttpError(400, "Body must have at least one field");

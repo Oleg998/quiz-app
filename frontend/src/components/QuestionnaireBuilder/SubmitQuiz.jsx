@@ -8,7 +8,7 @@ const SubmitQuiz = ({ id, questions }) => {
   
   const submitQuestionnaire = async () => {
     try {
-      const response = await updateQuiz(id, { questions });
+      const response = await updateQuiz(id, questions );
 
       if (response.status === 200) {
         alert("Quiz successfully submitted!");
