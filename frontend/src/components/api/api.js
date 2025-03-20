@@ -12,3 +12,7 @@ export const deleteQuiz = (id) => {
 export const getQuizByid = (id) => {
   return axios.get(`${BASE_URL}/${id}`);
 };
+
+export const updateQuiz = (id, body) => {
+  return axios.put(`${BASE_URL}/${id}`, body);
+};

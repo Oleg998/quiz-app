@@ -19,7 +19,7 @@ const EditQuiz = () => {
         };
           fetchQuizById(id);
       }, [id]);
-    return <QuestionnaireBuilder quiz={quiz} />;
+    return <QuestionnaireBuilder id={id} quiz={quiz} />;
 }
 
 export default EditQuiz;

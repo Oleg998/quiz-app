@@ -1,18 +1,15 @@
 
-import React from "react";
+import { updateQuiz } from "../api/api";
 import { Button } from "../ui/Button/Button";
 import styles from "./questionnaireBuilder.module.css";
 
-const SubmitQuiz = ({ questions }) => {
+const SubmitQuiz = ({ id, questions }) => {
+   console.log(questions);
   const submitQuestionnaire = async () => {
     try {
-      const response = await fetch("/api/questionnaires", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ questions }),
-      });
+      const response = await updateQuiz(id, { questions });
 
-      if (response.ok) {
+      if (response.status === 200) {
         alert("Quiz successfully submitted!");
       } else {
         alert("Error submitting the quiz.");
@@ -32,5 +29,7 @@ const SubmitQuiz = ({ questions }) => {
     </Button>
   );
 };
+
+ 
 
 export default SubmitQuiz;

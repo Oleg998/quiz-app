@@ -6,7 +6,8 @@ import AnswerInput from "./AnswerInput";
 import SubmitQuiz from "./SubmitQuiz";
 import QuestionEdit from "./QuestionEdit";
 
-const QuestionnaireBuilder = ({ quiz }) => {
+const QuestionnaireBuilder = ({ quiz, id }) => {
+  const [quizTitle, setQuizTitle] = useState(quiz?.title || "");
   const [questions, setQuestions] = useState([]);
   const [newQuestion, setNewQuestion] = useState("");
   const [questionType, setQuestionType] = useState("text");
@@ -17,7 +18,14 @@ const QuestionnaireBuilder = ({ quiz }) => {
     if (quiz?.questions) {
       setQuestions(quiz.questions);
     }
+    if (quiz?.title) {
+      setQuizTitle(quiz.title);
+    }
   }, [quiz]);
+
+  useEffect(() => {
+    document.title = quizTitle ? `Editing: ${quizTitle}` : "Create Quiz";
+  }, [quizTitle]);
 
   const addQuestion = () => {
     const id = Date.now();
@@ -26,15 +34,7 @@ const QuestionnaireBuilder = ({ quiz }) => {
       return;
     }
 
-    if (questionType === "text" && correctAnswers.length === 0) {
-      alert("Text question answer cannot be empty.");
-      return;
-    }
-
-    if (
-      (questionType === "single" || questionType === "multiple") &&
-      correctAnswers.length === 0
-    ) {
+    if (questionType !== "text" && correctAnswers.length === 0) {
       alert("Please ensure there is at least one correct answer.");
       return;
     }
@@ -88,6 +88,15 @@ const QuestionnaireBuilder = ({ quiz }) => {
       <h2 className={styles.title}>Create Quiz</h2>
       <div className={styles.optionContainer}>
         <Input
+          value={quizTitle}
+          onChange={(e) => setQuizTitle(e.target.value)}
+          label="Quiz Title"
+          className={styles.input}
+          placeholder="Enter quiz title"
+        />
+      </div>
+      <div className={styles.optionContainer}>
+        <Input
           value={newQuestion}
           onChange={(e) => setNewQuestion(e.target.value)}
           label="Enter Question"
@@ -103,7 +112,6 @@ const QuestionnaireBuilder = ({ quiz }) => {
           <option value="multiple">Multiple choice</option>
         </select>
       </div>
-
       <AnswerInput
         options={options}
         setOptions={setOptions}
@@ -112,15 +120,16 @@ const QuestionnaireBuilder = ({ quiz }) => {
         setCorrectAnswers={setCorrectAnswers}
         removeAnswer={removeAnswer}
       />
-
       <Button
         onClick={addQuestion}
         className={styles.button}
-        disabled={!newQuestion || correctAnswers.length === 0}
+        disabled={
+          !newQuestion ||
+          (questionType !== "text" && correctAnswers.length === 0)
+        }
       >
         ADD Question
       </Button>
-
       <QuestionEdit
         questions={questions}
         removeQuestion={removeQuestion}
@@ -128,7 +137,10 @@ const QuestionnaireBuilder = ({ quiz }) => {
         saveQuestion={saveQuestion}
       />
 
-      <SubmitQuiz questions={questions} />
+      <SubmitQuiz
+        id={id}
+        questions={{ title: quizTitle, questions }}
+      />
     </div>
   );
 };
