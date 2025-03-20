@@ -1,1 +1,0 @@
-export const subscriptionList = ["text ", "single", "multiple"];
