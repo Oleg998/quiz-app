@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import { handleSaveError, setUpdateSetting } from "./hooks.js";
-
+import {subscriptionList} from "../constants/constants.js"
 const quizSchema = new Schema(
   {
     title: {
@@ -14,7 +14,7 @@ const quizSchema = new Schema(
     questions: [
       {
         question: { type: String, required: true },
-        type: { type: String, required: true },
+        type: { type: String ,enum: subscriptionList, required: true },
         options: { type: [String], required: true },
         correctAnswers: { type: [String], required: true },
       },

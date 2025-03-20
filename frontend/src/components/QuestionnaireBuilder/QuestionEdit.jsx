@@ -74,7 +74,17 @@ const QuestionEdit = ({ questions, removeQuestion, saveQuestion }) => {
                 </Button>
               </div>
             ) : (
-              <span>{q.question}</span>
+              <>
+                <span>{q.question}</span>
+                <Button
+                  onClick={() =>
+                    startEditing(q.id, q.question, q.options, q.correctAnswers)
+                  }
+                  className={styles.button}
+                >
+                  Edit Question
+                </Button>
+              </>
             )}
 
             <Button
@@ -82,15 +92,6 @@ const QuestionEdit = ({ questions, removeQuestion, saveQuestion }) => {
               className={styles.button}
             >
               Remove Question
-            </Button>
-            
-            <Button
-              onClick={() =>
-                startEditing(q.id, q.question, q.options, q.correctAnswers)
-              }
-              className={styles.button}
-            >
-              Edit Question
             </Button>
           </div>
         </div>
