@@ -1,31 +1,29 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./QuizPage.module.css";
-import { getAllQuizByid } from "../api/api";
+import { getQuizByid } from "../api/api";
 
 const QuizPage = () => {
-  const [quiz, setQuiz] = useState(null);
+  const [quiz, setQuiz] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
-
+  
+  
   useEffect(() => {
-    const fetchQuizById = async (quizId) => {
+    const fetchQuizById = async (id) => {
       setIsLoading(true);
       try {
-        const { data } = await getAllQuizByid(quizId);
-        setQuiz(data.result);
+        const { data } = await getQuizByid(id);
+        setQuiz(data);
       } catch (err) {
         setError(err.message);
       } finally {
         setIsLoading(false);
       }
     };
-
-    if (id) {
       fetchQuizById(id);
-    }
   }, [id]);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
