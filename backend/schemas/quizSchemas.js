@@ -12,6 +12,7 @@ export const updateQuizSchema = Joi.object({
   description: Joi.string(),
   questions: Joi.array().items(
     Joi.object({
+      _id: Joi.string().length(24),
       question: Joi.string().required(),
       type: Joi.string().required(),
       options: Joi.array().items(Joi.string()).required(),

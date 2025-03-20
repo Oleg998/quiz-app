@@ -35,6 +35,7 @@ const HomePage = () => {
       setError(error.message);
     }
   };
+console.log(state);
 
   return (
     <div className={styles.container}>
