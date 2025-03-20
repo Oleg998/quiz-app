@@ -4,7 +4,8 @@ import { Button } from "../ui/Button/Button";
 import styles from "./questionnaireBuilder.module.css";
 
 const SubmitQuiz = ({ id, questions }) => {
-   console.log(questions);
+  console.log(questions);
+  
   const submitQuestionnaire = async () => {
     try {
       const response = await updateQuiz(id, { questions });

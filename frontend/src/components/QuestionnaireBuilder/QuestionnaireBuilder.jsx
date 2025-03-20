@@ -8,6 +8,9 @@ import QuestionEdit from "./QuestionEdit";
 
 const QuestionnaireBuilder = ({ quiz, id }) => {
   const [quizTitle, setQuizTitle] = useState(quiz?.title || "");
+  const [quizDescription, setQuizDescription] = useState(
+    quiz?.description || ""
+  ); // Добавлено описание
   const [questions, setQuestions] = useState([]);
   const [newQuestion, setNewQuestion] = useState("");
   const [questionType, setQuestionType] = useState("text");
@@ -20,6 +23,9 @@ const QuestionnaireBuilder = ({ quiz, id }) => {
     }
     if (quiz?.title) {
       setQuizTitle(quiz.title);
+    }
+    if (quiz?.description) {
+      setQuizDescription(quiz.description);
     }
   }, [quiz]);
 
@@ -86,6 +92,8 @@ const QuestionnaireBuilder = ({ quiz, id }) => {
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Create Quiz</h2>
+
+      {/* Поле для ввода названия квиза */}
       <div className={styles.optionContainer}>
         <Input
           value={quizTitle}
@@ -95,6 +103,19 @@ const QuestionnaireBuilder = ({ quiz, id }) => {
           placeholder="Enter quiz title"
         />
       </div>
+
+      {/* Поле для ввода описания квиза */}
+      <div className={styles.optionContainer}>
+        <Input
+          value={quizDescription}
+          onChange={(e) => setQuizDescription(e.target.value)}
+          label="Quiz Description"
+          className={styles.input}
+          placeholder="Enter quiz description"
+        />
+      </div>
+
+      {/* Поле для добавления вопроса */}
       <div className={styles.optionContainer}>
         <Input
           value={newQuestion}
@@ -112,6 +133,7 @@ const QuestionnaireBuilder = ({ quiz, id }) => {
           <option value="multiple">Multiple choice</option>
         </select>
       </div>
+
       <AnswerInput
         options={options}
         setOptions={setOptions}
@@ -120,6 +142,7 @@ const QuestionnaireBuilder = ({ quiz, id }) => {
         setCorrectAnswers={setCorrectAnswers}
         removeAnswer={removeAnswer}
       />
+
       <Button
         onClick={addQuestion}
         className={styles.button}
@@ -130,6 +153,7 @@ const QuestionnaireBuilder = ({ quiz, id }) => {
       >
         ADD Question
       </Button>
+
       <QuestionEdit
         questions={questions}
         removeQuestion={removeQuestion}
@@ -137,9 +161,14 @@ const QuestionnaireBuilder = ({ quiz, id }) => {
         saveQuestion={saveQuestion}
       />
 
+      {/* Передаем title, description и questions в SubmitQuiz */}
       <SubmitQuiz
         id={id}
-        questions={{ title: quizTitle, questions }}
+        questions={{
+          title: quizTitle,
+          description: quizDescription,
+          questions,
+        }}
       />
     </div>
   );

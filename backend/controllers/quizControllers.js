@@ -41,6 +41,7 @@ export const createQuiz = async (req, res, next) => {
 };
 
 export const updateQuiz = async (req, res, next) => {
+  console.log("Полученные данные для обновления:", req.body);
   try {
     
     const id = req.params.id;
