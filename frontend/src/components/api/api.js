@@ -14,7 +14,11 @@ export const getQuizByid = (id) => {
 };
 
 export const updateQuiz = (id, body) => {
-  console.log(body);
-  
+
   return axios.put(`${BASE_URL}/${id}`, body);
+};
+
+export const addQuiz = ( body) => {
+
+  return axios.post(`${BASE_URL}`, body);
 };

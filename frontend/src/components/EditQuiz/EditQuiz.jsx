@@ -1,25 +1,13 @@
 import QuestionnaireBuilder from "../QuestionnaireBuilder/QuestionnaireBuilder";
-import { useState , useEffect} from "react";
-import { useParams } from "react-router-dom";
-import { getQuizByid } from "../api/api";
+import useFetchQuiz from "../hooks/useFetchQuiz";
+
 const EditQuiz = () => {
-    const [quiz, setQuiz] = useState([]);
-      const [error, setError] = useState(null);
-    const { id } = useParams();
-    // const navigate = useNavigate();
-     useEffect(() => {
-        const fetchQuizById = async (id) => {
-         
-          try {
-            const { data } = await getQuizByid(id);
-            setQuiz(data);
-          } catch (err) {
-            setError(err.message);
-          } 
-        };
-          fetchQuizById(id);
-      }, [id]);
-    return <QuestionnaireBuilder id={id} quiz={quiz} />;
-}
+  const { quiz, error } = useFetchQuiz();
+
+  if (error) return <p>Error: {error}</p>;
+  if (!quiz) return <p>Loading...</p>;
+
+  return <QuestionnaireBuilder quiz={quiz} />;
+};
 
 export default EditQuiz;

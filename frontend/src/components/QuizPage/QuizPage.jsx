@@ -1,33 +1,13 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./quizPage.module.css";
-import { getQuizByid } from "../api/api";
+import useFetchQuiz from "../hooks/useFetchQuiz";
 
 const QuizPage = () => {
-  const [quiz, setQuiz] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const { id } = useParams();
+  const { quiz, isLoading, error } = useFetchQuiz();
   const navigate = useNavigate();
-  
-  
-  useEffect(() => {
-    const fetchQuizById = async (id) => {
-      setIsLoading(true);
-      try {
-        const { data } = await getQuizByid(id);
-        setQuiz(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-      fetchQuizById(id);
-  }, [id]);
-
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState([]);
+  const [selectedAnswers, setSelectedAnswers] = useState(new Set());
   const [score, setScore] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
 
@@ -38,29 +18,28 @@ const QuizPage = () => {
   const currentQuestion = quiz.questions[currentQuestionIndex];
 
   const handleAnswerSelect = (option) => {
-    setSelectedAnswers((prev) =>
-      currentQuestion.type === "single"
-        ? [option]
-        : prev.includes(option)
-        ? prev.filter((ans) => ans !== option)
-        : [...prev, option]
-    );
+    setSelectedAnswers((prev) => {
+      const newAnswers = new Set(prev);
+      newAnswers.has(option)
+        ? newAnswers.delete(option)
+        : newAnswers.add(option);
+      return newAnswers;
+    });
   };
 
   const handleNext = () => {
-    const isCorrect =
-      selectedAnswers.length === currentQuestion.correctAnswers.length &&
-      new Set(selectedAnswers).size ===
-        new Set(currentQuestion.correctAnswers).size &&
-      selectedAnswers.every((ans) =>
+    if (
+      selectedAnswers.size === currentQuestion.correctAnswers.length &&
+      [...selectedAnswers].every((ans) =>
         currentQuestion.correctAnswers.includes(ans)
-      );
-
-    if (isCorrect) setScore((prev) => prev + 1);
+      )
+    ) {
+      setScore((prev) => prev + 1);
+    }
 
     if (currentQuestionIndex < quiz.questions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
-      setSelectedAnswers([]);
+      setSelectedAnswers(new Set());
     } else {
       setIsCompleted(true);
     }
@@ -68,7 +47,7 @@ const QuizPage = () => {
 
   const handleReset = () => {
     setCurrentQuestionIndex(0);
-    setSelectedAnswers([]);
+    setSelectedAnswers(new Set());
     setScore(0);
     setIsCompleted(false);
   };
@@ -95,9 +74,7 @@ const QuizPage = () => {
               <button
                 key={option}
                 onClick={() => handleAnswerSelect(option)}
-                className={
-                  selectedAnswers.includes(option) ? styles.selected : ""
-                }
+                className={selectedAnswers.has(option) ? styles.selected : ""}
               >
                 {option}
               </button>
@@ -105,7 +82,7 @@ const QuizPage = () => {
           </div>
           <button
             onClick={handleNext}
-            disabled={selectedAnswers.length === 0}
+            disabled={selectedAnswers.size === 0}
           >
             {currentQuestionIndex < quiz.questions.length - 1
               ? "Next"

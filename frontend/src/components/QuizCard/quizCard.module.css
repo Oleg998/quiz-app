@@ -5,7 +5,7 @@
   background: #e6e6e6;
   border-radius: 8px;
   box-shadow: 0 0 40px -10px #000;
-  margin: 20px auto;
+  gap: 20px;
   padding: 10px 30px 10px 30px ;
   transition: transform 0.2s ease-in-out;
 }
